@@ -1,0 +1,138 @@
+ ТЕХНІЧНЕ ЗАВДАННЯ (ТЗ)
+Проєкт: Task Tracker (міні Trello/Jira)
+
+1. Мета та призначення
+Task Tracker — вебзастосунок для керування проєктами та задачами: створення проєктів, додавання задач, зміна статусів, фільтрація за тегами.
+Система має CRUD для сутностей, відображення введених даних, а також авторизацію/реєстрацію користувачів.
+
+2. Ролі користувачів
+- Користувач (User): реєструється/логіниться, працює зі своїми проєктами та задачами.
+-Адміністратор(admin) – один адмін або тімлід міг назначати таски іншим користувачам
+3. Функціональні вимоги 
+3.1 Авторизація та реєстрація
+- Реєстрація: email + пароль + ім’я + роль.
+- Вхід: email + пароль.
+- Вихід із системи.
+- Дані користувачів зберігаються в БД (пароль у хешованому вигляді).
+
+3.2 CRUD сутностей
+Кількість сутностей має дорівнювати кількості учасників команди.
+Базовий набір (5 сутностей) — можна адаптувати під вашу команду:
+
+1) Projects (Проєкти) — CRUD
+2) Tasks (Задачі) — CRUD
+3) Statuses (Статуси) — CRUD
+4) Tags (Теги) — CRUD
+5) Users (Користувачі) — створюються через реєстрацію, редагування профілю (ім’я)
+> Якщо в команді менше/більше людей — дозволяється додати/прибрати сутність:
+> - додати Comments (коментарі до задач)
+ 3.3 Відображення даних
+- Списки проєктів і задач відображаються у вигляді таблиці/карток.
+- Для кожної сутності є сторінка списку та форма створення/редагування.
+- Після створення/редагування — дані одразу видно в інтерфейсі.
+
+ 4. Сторінки (UI)
+1) /login — вхід
+2) /register — реєстрація
+3) /projects — список проєктів, кнопка “Створити”
+4) /projects/:id — деталі проєкту + список задач у цьому проєкті
+5) /tasks — (опційно) загальний список задач з фільтрами (проєкт/статус/тег)
+6) /statuses — довідник статусів (CRUD)
+7) /tags — довідник тегів (CRUD)
+8) /profile — профіль (перегляд/зміна імені)
+
+ 5. Модель даних (MySQL)
+ 5.1 users
+- id INT AUTO_INCREMENT PRIMARY KEY
+- name VARCHAR(100) NOT NULL
+- email VARCHAR(150) NOT NULL UNIQUE
+- password_hash VARCHAR(255) NOT NULL
+- created_at DATETIME NOT NULL
+
+5.2 projects
+- id INT AUTO_INCREMENT PRIMARY KEY
+- owner_id INT NOT NULL (FK -> users.id)
+- title VARCHAR(150) NOT NULL
+- description TEXT NULL
+- created_at DATETIME NOT NULL
+
+ 5.3 statuses
+- id INT AUTO_INCREMENT PRIMARY KEY
+- owner_id INT NOT NULL (FK -> users.id)
+- name VARCHAR(50) NOT NULL  (наприклад: "To Do", "In Progress", "Done")
+- sort_order INT NOT NULL DEFAULT 1
+
+ 5.4 tags
+- id INT AUTO_INCREMENT PRIMARY KEY
+- owner_id INT NOT NULL (FK -> users.id)
+- name VARCHAR(50) NOT NULL
+- color VARCHAR(20) NULL
+
+ 5.5 tasks
+- id INT AUTO_INCREMENT PRIMARY KEY
+- project_id INT NOT NULL (FK -> projects.id)
+- status_id INT NOT NULL (FK -> statuses.id)
+- title VARCHAR(150) NOT NULL
+- description TEXT NULL
+- due_date DATE NULL
+- created_at DATETIME NOT NULL
+
+5.6 task_tags (зв’язок багато-до-багатьох)
+- task_id INT NOT NULL (FK -> tasks.id)
+- tag_id INT NOT NULL (FK -> tags.id)
+- PRIMARY KEY (task_id, tag_id)
+
+6. API (мінімальний набір)
+Auth:
+- POST /api/auth/register
+- POST /api/auth/login
+- GET  /api/auth/me
+
+Projects:
+- GET    /api/projects
+- POST   /api/projects
+- GET    /api/projects/:id
+- PUT    /api/projects/:id
+- DELETE /api/projects/:id
+
+Tasks:
+- GET    /api/tasks?projectId=&statusId=&tagId=
+- POST   /api/tasks
+- GET    /api/tasks/:id
+- PUT    /api/tasks/:id
+- DELETE /api/tasks/:id
+
+Statuses:
+- GET/POST/PUT/DELETE /api/statuses ...
+
+Tags:
+- GET/POST/PUT/DELETE /api/tags ...
+
+7. Технологічний стек
+Frontend:
+- Vue 3 + Vite
+- Vue Router (маршрути)
+- Pinia (стан)
+- Axios (HTTP)
+- TailwindCSS (стилі) або Vuetify (на вибір)
+
+Backend :
+- Node.js + Express
+- JWT для сесій (access token)
+- bcrypt для хешування паролів
+- ORM: Prisma (працює з MySQL)
+
+Database:
+- MySQL
+
+8. Валідація та правила
+- Email унікальний.
+- Пароль мінімум 6 символів.
+- Користувач бачить/редагує тільки свої сутності (owner_id).
+- Для tasks: title обов’язкове, status_id обов’язкове, project_id обов’язкове.
+
+9. Критерії приймання (що має працювати на захисті)
+1) Реєстрація/вхід/вихід.
+2) CRUD для Projects, Tasks, Statuses, Tags.
+3) Дані після CRUD відображаються в інтерфейсі (списки/деталі).
+4) Дані зберігаються у MySQL і не губляться після перезапуску бекенда.

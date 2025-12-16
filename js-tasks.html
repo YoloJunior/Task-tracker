@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Практична – Slipknot Fan Page</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+<header class="site-header">
+    <div class="logo">Slipknot</div>
+    <nav class="main-nav">
+        <a href="Main.html">Головна</a>
+        <a href="auth.html">Вхід</a>
+        <a href="admin.html">Адмін-панель</a>
+        <a href="js-tasks.html" class="nav-active">JS Таска</a>
+    </nav>
+</header>
+
+<main>
+    
+    <section class="section">
+        <h2>1. Калькулятор Прямокутника</h2>
+        <p class="section-text">Введіть довжину та ширину, щоб отримати параметри фігури. (Згідно завдання 1)</p>
+        
+        <div class="js-card">
+            <div class="calc-grid">
+                <div class="input-group">
+                    <label>Довжина:</label>
+                    <input type="number" id="rectLength" placeholder="0" min="0">
+                </div>
+                <div class="input-group">
+                    <label>Ширина:</label>
+                    <input type="number" id="rectWidth" placeholder="0" min="0">
+                </div>
+            </div>
+            
+            <div class="calc-results">
+                <div class="result-item">
+                    <span>Периметр:</span>
+                    <strong id="resPerimeter">-</strong>
+                </div>
+                <div class="result-item">
+                    <span>Площа:</span>
+                    <strong id="resArea">-</strong>
+                </div>
+                <div class="result-item">
+                    <span>Діагональ:</span>
+                    <strong id="resDiagonal">-</strong>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-alt">
+        <h2>2. Чат (Два користувачі)</h2>
+        <p class="section-text">Симуляція листування двох фанатів. (Згідно завдання 2)</p>
+
+        <div class="chat-container">
+            <div class="chat-window" id="chatWindow">
+                <div class="chat-placeholder">Тут будуть повідомлення...</div>
+            </div>
+
+            <div class="chat-controls">
+                <div class="chat-input-box user-1">
+                    <h4>Користувач 1 (Maggot #1)</h4>
+                    <div class="input-row">
+                        <input type="text" id="msgUser1" placeholder="Напишіть повідомлення...">
+                        <button onclick="sendMessage(1)" class="btn-chat"><i class="fa-solid fa-paper-plane"></i></button>
+                    </div>
+                </div>
+
+                <div class="chat-input-box user-2">
+                    <h4>Користувач 2 (Maggot #2)</h4>
+                    <div class="input-row">
+                        <input type="text" id="msgUser2" placeholder="Напишіть повідомлення...">
+                        <button onclick="sendMessage(2)" class="btn-chat"><i class="fa-solid fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>3. Транслітерація (UKR -> ENG)</h2>
+        <p class="section-text">Друкуйте текст українською, щоб миттєво отримати латиницю. (Згідно завдання 3)</p>
+        
+        <div class="js-card translit-box">
+            <div class="translit-group">
+                <label>Український текст:</label>
+                <textarea id="ukrText" rows="4" placeholder="Введіть текст тут..."></textarea>
+            </div>
+            <div class="translit-icon">
+                <i class="fa-solid fa-arrow-down"></i>
+            </div>
+            <div class="translit-group">
+                <label>Transliteration:</label>
+                <textarea id="engText" rows="4" readonly placeholder="Result will be here..."></textarea>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer class="site-footer">
+    <p>© 2025 Slipknot Fan Page.</p>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>

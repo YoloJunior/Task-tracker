@@ -1,0 +1,95 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           Int       @id @default(autoincrement())
+  name         String    @db.VarChar(100)
+  email        String    @unique @db.VarChar(150)
+  passwordHash String    @map("password_hash") @db.VarChar(255)
+  role         Role      @default(user)
+  createdAt    DateTime  @default(now()) @map("created_at")
+
+  projects     Project[]
+  statuses     Status[]
+  tags         Tag[]
+  assignedTasks Task[]   @relation("AssignedTasks")
+
+  @@map("users")
+}
+
+enum Role {
+  user
+  admin
+}
+
+model Project {
+  id          Int      @id @default(autoincrement())
+  ownerId     Int      @map("owner_id")
+  title       String   @db.VarChar(150)
+  description String?  @db.Text
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  owner       User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  tasks       Task[]
+
+  @@map("projects")
+}
+
+model Status {
+  id        Int    @id @default(autoincrement())
+  ownerId   Int    @map("owner_id")
+  name      String @db.VarChar(50)
+  sortOrder Int    @default(1) @map("sort_order")
+
+  owner     User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  tasks     Task[]
+
+  @@map("statuses")
+}
+
+model Tag {
+  id      Int     @id @default(autoincrement())
+  ownerId Int     @map("owner_id")
+  name    String  @db.VarChar(50)
+  color   String? @db.VarChar(20)
+
+  owner   User    @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  tasks   TaskTag[]
+
+  @@map("tags")
+}
+
+model Task {
+  id          Int       @id @default(autoincrement())
+  projectId   Int       @map("project_id")
+  statusId    Int       @map("status_id")
+  assignedTo  Int?      @map("assigned_to")
+  title       String    @db.VarChar(150)
+  description String?   @db.Text
+  dueDate     DateTime? @map("due_date") @db.Date
+  createdAt   DateTime  @default(now()) @map("created_at")
+
+  project     Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  status      Status    @relation(fields: [statusId], references: [id])
+  assignedUser User?    @relation("AssignedTasks", fields: [assignedTo], references: [id], onDelete: SetNull)
+  tags        TaskTag[]
+
+  @@map("tasks")
+}
+
+model TaskTag {
+  taskId Int @map("task_id")
+  tagId  Int @map("tag_id")
+
+  task   Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  tag    Tag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([taskId, tagId])
+  @@map("task_tags")
+}

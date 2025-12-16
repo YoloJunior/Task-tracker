@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вхід та Реєстрація – Slipknot Fan Page</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+<header class="site-header">
+    <div class="logo">Slipknot</div>
+    <nav class="main-nav">
+        <a href="Main.html">Головна</a>
+        <a href="faq.html">FAQ</a>
+        <a href="admin.html">Адмін-панель</a>
+        <a href="auth.html" class="nav-active">Вхід</a>
+    </nav>
+</header>
+
+<main class="auth-page">
+    <div class="auth-box">
+        <h2 class="auth-title">Ласкаво просимо, Maggot!</h2>
+        <p class="auth-subtitle">Увійди в систему, щоб отримати доступ до ексклюзиву.</p>
+
+        <div class="tab-controls">
+            <input type="radio" name="authTab" id="tab-login" checked>
+            <input type="radio" name="authTab" id="tab-register">
+            
+            <div class="auth-tabs">
+                <label for="tab-login">Вхід</label>
+                <label for="tab-register">Реєстрація</label>
+                <div class="tab-highlighter"></div> </div>
+
+            <div class="auth-forms-container">
+                
+                <form class="auth-form login-form">
+                    <div class="input-group">
+                        <i class="fa-solid fa-envelope input-icon"></i>
+                        <input type="email" placeholder="Email" required>
+                    </div>
+
+                    <div class="input-group">
+                        <i class="fa-solid fa-lock input-icon"></i>
+                        <input type="password" placeholder="Пароль" required>
+                    </div>
+
+                    <button type="submit" class="btn-hero btn-full">Увійти</button>
+                    <a href="#" class="forgot-pass">Забули пароль?</a>
+                </form>
+
+                <form class="auth-form register-form" id="registerForm">
+                    <div class="form-grid">
+                        <div class="input-group full-width">
+                            <i class="fa-solid fa-at input-icon"></i>
+                            <input type="email" id="email" placeholder="Email" required>
+                            <span class="error-message"></span>
+                        </div>
+                        <div class="input-group full-width">
+                            <i class="fa-solid fa-key input-icon"></i>
+                            <input type="password" id="password" placeholder="Придумайте пароль" required>
+                            <span class="error-message"></span>
+                        </div>
+                    </div>
+
+                    <hr class="form-divider">
+
+                    <div class="form-grid">
+                        <div class="input-group">
+                            <i class="fa-solid fa-user input-icon"></i>
+                            <input type="text" id="firstName" placeholder="Ім'я" required>
+                            <span class="error-message"></span>
+                        </div>
+                        <div class="input-group">
+                            <i class="fa-regular fa-user input-icon"></i>
+                            <input type="text" id="lastName" placeholder="Прізвище" required>
+                            <span class="error-message"></span>
+                        </div>
+                        <div class="input-group">
+                            <i class="fa-solid fa-cake-candles input-icon"></i>
+                            <input type="text" id="birthDate" onfocus="(this.type='date')" placeholder="Дата народження">
+                            <span class="error-message"></span>
+                        </div>
+                        <div class="input-group">
+                            <i class="fa-solid fa-users input-icon"></i>
+                            <select id="userRole" required>
+                                <option value="" disabled selected>Ваша роль</option>
+                                <option>Фанат</option>
+                                <option>Музикант</option>
+                                <option>Організатор</option>
+                            </select>
+                            <span class="error-message"></span>
+                        </div>
+                    </div>
+
+                    <div class="input-group full-width">
+                        <i class="fa-solid fa-phone input-icon"></i>
+                        <input type="text" id="phoneNumber" placeholder="Номер телефону +38(0__) -___-__-__" required>
+                        <span class="error-message"></span>
+                    </div>
+
+                    <div class="input-group full-width gender-group">
+                        <label class="gender-label"><i class="fa-solid fa-venus-mars"></i> Стать:</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="gender" value="Чоловік" required>
+                                <span>Чоловік</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="gender" value="Жінка" required>
+                                <span>Жінка</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="gender" value="Інше" required>
+                                <span>Інше</span>
+                            </label>
+                        </div>
+                        <span class="error-message"></span>
+                    </div>
+
+                    <div class="input-group file-group full-width">
+                        <label class="file-label">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                            <span>Завантажити аватар</span>
+                            <input type="file">
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn-hero btn-full">Зареєструватися</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Таблиця зареєстрованих користувачів -->
+    <div class="users-table-wrapper" id="usersTableWrapper" style="display: none;">
+        <div class="table-controls">
+            <h3>Зареєстровані користувачі</h3>
+            <div class="table-actions">
+                <button class="btn-action btn-duplicate" id="duplicateBtn" disabled>
+                    <i class="fa-solid fa-copy"></i> Дублювати
+                </button>
+                <button class="btn-action btn-delete" id="deleteBtn" disabled>
+                    <i class="fa-solid fa-trash"></i> Видалити
+                </button>
+            </div>
+        </div>
+        <div class="table-scroll">
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" id="selectAll"></th>
+                        <th>Email</th>
+                        <th>Ім'я</th>
+                        <th>Прізвище</th>
+                        <th>Дата народження</th>
+                        <th>Роль</th>
+                        <th>Телефон</th>
+                        <th>Стать</th>
+                    </tr>
+                </thead>
+                <tbody id="usersTableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<footer class="site-footer">
+    <p>© 2025 Slipknot Fan Page.</p>
+    <div class="footer-icons">
+        <a href="#" class="icon-link"><i class="fa-solid fa-phone"></i></a>
+        <a href="#" class="icon-link"><i class="fa-solid fa-envelope"></i></a>
+        <a href="#" class="icon-link"><i class="fa-brands fa-telegram"></i></a>
+    </div>
+</footer>
+
+<!-- IMask.js для маски телефону -->
+<script src="https://unpkg.com/imask"></script>
+<script src="script.js"></script>
+</body>
+</html>

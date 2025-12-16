@@ -1,0 +1,289 @@
+Task Tracker - документація проекту
+
+Про що проект
+
+Task Tracker - це веб-додаток для управління проектами та завданнями, щось на зразок Trello або Jira. Можна створювати проекти, додавати до них завдання, ставити статуси та теги, відстежувати що зроблено а що ні.
+
+Що вміє додаток:
+- Реєстрація та вхід користувачів через JWT токени
+- Створення, редагування, видалення проектів
+- Управління завданнями зі статусами та тегами
+- Фільтрація завдань за проектом, статусом або тегом
+- Роль адміна з розширеними правами
+- Темна тема інтерфейсу
+
+
+Технології
+
+Backend:
+- Node.js - середовище виконання JavaScript на сервері
+- Express.js - фреймворк для створення API
+- Prisma - ORM для роботи з базою даних
+- MySQL - база даних
+- JWT (jsonwebtoken) - токени для автентифікації
+- bcrypt - хешування паролів
+
+Frontend:
+- Vue.js 3 з Composition API
+- Vite - збірка проекту
+- Pinia - управління станом
+- Vue Router - маршрутизація
+- Axios - HTTP запити
+- TailwindCSS - стилізація
+
+
+Структура папок
+
+task-tracker/
+  task-tracker-backend/
+    prisma/
+      schema.prisma - схема бази даних
+    src/
+      controllers/ - логіка обробки запитів
+        authController.js
+        projectController.js
+        taskController.js
+        statusController.js
+        tagController.js
+      middleware/
+        auth.js - перевірка JWT токену
+        errorHandler.js - обробка помилок
+      routes/ - маршрути API
+        auth.js
+        projects.js
+        tasks.js
+        statuses.js
+        tags.js
+      server.js - точка входу
+    .env - змінні середовища
+    package.json
+
+  task-tracker-frontend/
+    src/
+      api/
+        axios.js - налаштування axios з токеном
+      router/
+        index.js - маршрути сторінок
+      stores/ - Pinia сховища
+        auth.js
+        projects.js
+        tasks.js
+        statuses.js
+        tags.js
+      views/ - сторінки
+        LoginView.vue
+        RegisterView.vue
+        ProjectsView.vue
+        ProjectDetailView.vue
+        TasksView.vue
+        StatusesView.vue
+        TagsView.vue
+        ProfileView.vue
+      App.vue
+      main.js
+      style.css
+    tailwind.config.js
+    vite.config.js
+    package.json
+
+
+Як запустити проект
+
+Потрібно мати Node.js (версія 18+) та MySQL (версія 8+).
+
+1. Створити базу даних MySQL:
+   CREATE DATABASE task_tracker;
+
+2. Налаштувати backend:
+   cd task-tracker-backend
+   npm install
+
+   Відредагувати файл .env:
+   DATABASE_URL="mysql://логін:пароль@localhost:3306/task_tracker"
+   JWT_SECRET="якийсь-секретний-ключ"
+   PORT=3000
+
+   Застосувати схему до бази:
+   npx prisma db push
+   npx prisma generate
+
+   Запустити сервер:
+   node src/server.js
+
+3. Налаштувати frontend:
+   cd task-tracker-frontend
+   npm install
+   npm run dev
+
+4. Відкрити в браузері http://localhost:5173
+
+
+База даних
+
+В базі 6 таблиць:
+
+users - користувачі
+- id, name, email, password_hash, role (user/admin), created_at
+
+projects - проекти
+- id, owner_id (хто створив), title, description, created_at
+
+statuses - статуси завдань
+- id, owner_id, name, sort_order (порядок)
+
+tags - теги
+- id, owner_id, name, color (hex колір)
+
+tasks - завдання
+- id, project_id, status_id, assigned_to (кому призначено), title, description, due_date, created_at
+
+task_tags - зв'язок завдань з тегами (багато-до-багатьох)
+- task_id, tag_id
+
+
+API ендпоінти
+
+Базовий URL: http://localhost:3000/api
+
+Автентифікація:
+
+POST /api/auth/register - реєстрація
+Тіло: { name, email, password, role }
+Повертає: { user, token }
+
+POST /api/auth/login - вхід
+Тіло: { email, password }
+Повертає: { user, token }
+
+GET /api/auth/me - інфо про поточного користувача
+Заголовок: Authorization: Bearer токен
+
+PUT /api/auth/profile - оновлення профілю
+Тіло: { name }
+
+GET /api/auth/users - список всіх користувачів (для адміна)
+
+Проекти:
+
+GET /api/projects - всі проекти
+GET /api/projects/:id - один проект
+POST /api/projects - створити проект { title, description }
+PUT /api/projects/:id - оновити проект
+DELETE /api/projects/:id - видалити проект
+
+Завдання:
+
+GET /api/tasks - всі завдання (можна фільтрувати: ?projectId=1&statusId=2&tagId=3)
+GET /api/tasks/:id - одне завдання
+POST /api/tasks - створити { title, description, projectId, statusId, dueDate, tagIds, assignedToId }
+PUT /api/tasks/:id - оновити
+DELETE /api/tasks/:id - видалити
+
+Статуси:
+
+GET /api/statuses - всі статуси
+POST /api/statuses - створити { name, sortOrder }
+PUT /api/statuses/:id - оновити
+DELETE /api/statuses/:id - видалити (не можна якщо використовується)
+
+Теги:
+
+GET /api/tags - всі теги
+POST /api/tags - створити { name, color }
+PUT /api/tags/:id - оновити
+DELETE /api/tags/:id - видалити
+
+Помилки API:
+- 400 - неправильний запит
+- 401 - не авторизовано
+- 403 - доступ заборонено
+- 404 - не знайдено
+- 500 - помилка сервера
+
+
+Сторінки фронтенду
+
+/login - вхід
+/register - реєстрація
+/projects - список проектів (сітка карток)
+/projects/:id - деталі проекту з його завданнями
+/tasks - всі завдання з фільтрами
+/statuses - управління статусами
+/tags - управління тегами
+/profile - профіль користувача
+
+
+Pinia stores
+
+auth.js - зберігає user, token, методи login/register/logout
+projects.js - список проектів, CRUD операції
+tasks.js - список завдань з фільтрацією
+statuses.js - статуси
+tags.js - теги
+
+Кожен store має стан (state), дії (actions) для API запитів, і деякі мають геттери.
+
+
+Як працює автентифікація
+
+1. При реєстрації пароль хешується bcrypt, створюється запис в базі, генерується JWT токен на 24 години
+2. При вході перевіряється пароль через bcrypt, генерується новий токен
+3. Токен зберігається в localStorage
+4. Axios інтерсептор автоматично додає токен до кожного запиту в заголовок Authorization
+5. Backend middleware перевіряє токен на кожному захищеному маршруті
+6. При виході токен видаляється з localStorage
+
+
+Ролі користувачів
+
+Звичайний користувач (user):
+- Бачить тільки свої проекти, завдання, статуси, теги
+- Може створювати/редагувати/видаляти тільки своє
+
+Адміністратор (admin):
+- Бачить все від усіх користувачів
+- Може редагувати/видаляти будь-що
+- Може призначати завдання іншим користувачам
+
+
+Що можна показати на демонстрації
+
+1. Зареєструвати нового користувача
+2. Створити проект
+3. Створити кілька статусів (До роботи, В процесі, Готово)
+4. Створити теги з різними кольорами
+5. Створити завдання в проекті, додати статус і теги
+6. Показати фільтрацію завдань
+7. Зайти як адмін і показати що бачить всі проекти
+8. Показати профіль зі статистикою
+
+
+Можливі проблеми
+
+"Не підключається до бази" - перевірити чи запущений MySQL і чи правильний DATABASE_URL в .env
+
+"Module not found" - виконати npm install
+
+"CORS error" - перевірити чи запущений backend на порту 3000
+
+"401 на всіх запитах" - токен міг протухнути, перелогінитись
+
+"Port already in use" - щось вже працює на цьому порту, закрити або змінити порт
+
+"Prisma schema not found" - виконати npx prisma generate
+
+
+Що можна додати в майбутньому
+
+- Коментарі до завдань
+- Завантаження файлів
+- Пріоритети завдань
+- Нагадування про дедлайни
+- Drag and drop для завдань
+- Kanban дошка
+- Пошук
+- Тести
+- Docker
+- Скидання пароля
+- Двофакторна автентифікація
+- Світла тема

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Адмін-панель – Slipknot Fan Page</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+<header class="site-header">
+    <div class="logo">Slipknot</div>
+    <nav class="main-nav">
+        <a href="Main.html">Головна</a>
+        <a href="faq.html">FAQ</a>
+        <a href="admin.html" class="nav-active">Адмін-панель</a>
+    </nav>
+</header>
+
+<main>
+    <section class="section">
+        <h1>Магазин альбомів та мерчу</h1>
+        <p class="section-text">
+            Приклад таблиці для керування товарами. Всі дії (редагування, видалення) 
+            тепер вирівняні ідеально по центру.
+        </p>
+
+        <div class="admin-table-wrapper">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>№</th>
+                        <th>Назва</th>
+                        <th>Тип</th>
+                        <th>Категорія</th>
+                        <th>Ціна, грн</th>
+                        <th>Фото</th>
+                        <th>Дії</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-label="№">1</td>
+                        <td data-label="Назва">Slipknot (1999)</td>
+                        <td data-label="Тип">Альбом</td>
+                        <td data-label="Категорія">Студійний альбом</td>
+                        <td data-label="Ціна">400.00</td>
+                        <td data-label="Фото">
+                            <img src="Content/Slipknot1999.jpg" alt="Album" class="table-image">
+                        </td>
+                        <td data-label="Дії">
+                            <div class="actions-wrapper">
+                                <button class="table-btn view" title="Переглянути"><i class="fa-solid fa-eye"></i></button>
+                                <button class="table-btn edit" title="Редагувати"><i class="fa-solid fa-pen"></i></button>
+                                <button class="table-btn delete" title="Видалити"><i class="fa-solid fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td data-label="№">2</td>
+                        <td data-label="Назва">Iowa</td>
+                        <td data-label="Тип">Альбом</td>
+                        <td data-label="Категорія">Студійний альбом</td>
+                        <td data-label="Ціна">350.00</td>
+                        <td data-label="Фото">
+                            <img src="Content/Slipknot.jpg" alt="Iowa" class="table-image">
+                        </td>
+                        <td data-label="Дії">
+                            <div class="actions-wrapper">
+                                <button class="table-btn view"><i class="fa-solid fa-eye"></i></button>
+                                <button class="table-btn edit"><i class="fa-solid fa-pen"></i></button>
+                                <button class="table-btn delete"><i class="fa-solid fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td data-label="№">3</td>
+                        <td data-label="Назва">Футболка «We Are Not Your Kind»</td>
+                        <td data-label="Тип">Мерч</td>
+                        <td data-label="Категорія">Футболка</td>
+                        <td data-label="Ціна">800.00</td>
+                        <td data-label="Фото">
+                            <img src="Content/SlipKind.jpeg" alt="T-shirt" class="table-image">
+                        </td>
+                        <td data-label="Дії">
+                            <div class="actions-wrapper">
+                                <button class="table-btn view"><i class="fa-solid fa-eye"></i></button>
+                                <button class="table-btn edit"><i class="fa-solid fa-pen"></i></button>
+                                <button class="table-btn delete"><i class="fa-solid fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+<footer class="site-footer">
+    <p>© 2025 Slipknot Fan Page.</p>
+    <div class="footer-icons">
+        <a href="#" class="icon-link"><i class="fa-solid fa-phone"></i></a>
+        <a href="#" class="icon-link"><i class="fa-solid fa-envelope"></i></a>
+        <a href="#" class="icon-link"><i class="fa-brands fa-telegram"></i></a>
+    </div>
+</footer>
+
+</body>
+</html>
